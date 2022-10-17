@@ -148,7 +148,7 @@ class DatabaseCopyHelper
 
     companion object {
 
-        private val DB_NAME = "quiz.sqlite"
+        private const val DB_NAME = "quiz.sqlite"
     }
     //return cursor
 
