@@ -23,10 +23,10 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
 
         val bundle: ResultFragmentArgs by navArgs()
 
-        val trueF = bundle.trueF
-        val falseF = bundle.falseF
+        binding.trueFF = bundle.trueF
+        val t=binding.trueFF!!
 
-        binding.tvSuccess.text = "Success rate ${trueF * 10}%"
+        binding.resultText = "Success rate ${t * 10}%"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

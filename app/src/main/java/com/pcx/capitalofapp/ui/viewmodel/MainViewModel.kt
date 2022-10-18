@@ -1,9 +1,9 @@
 package com.pcx.capitalofapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
-import com.pcx.capitalofapp.R
+import com.pcx.capitalofapp.repo.QuizDaoRepo
 
 class MainViewModel:ViewModel() {
+    private lateinit var repo: QuizDaoRepo
 
 }

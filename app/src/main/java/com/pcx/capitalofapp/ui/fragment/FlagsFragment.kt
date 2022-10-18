@@ -33,35 +33,15 @@ class FlagsFragment : Fragment(R.layout.fragment_flags) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFlagsBinding.bind(view)
+        binding.flagsFragment = this
 
         dbs = DatabaseHelper(requireActivity())
-
         questions = QuizDao().getRandom10Flag(dbs)
 
+        binding.trueText = "0"
+        binding.falseText = "0"
+
         getQuiz()
-
-        binding.apply {
-
-            buttonA.setOnClickListener {
-                correctQuiz(binding.buttonA)
-                quizControl()
-            }
-
-            buttonB.setOnClickListener {
-                correctQuiz(binding.buttonB)
-                quizControl()
-            }
-
-            buttonC.setOnClickListener {
-                correctQuiz(binding.buttonC)
-                quizControl()
-            }
-
-            buttonD.setOnClickListener {
-                correctQuiz(binding.buttonD)
-                quizControl()
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,27 +52,30 @@ class FlagsFragment : Fragment(R.layout.fragment_flags) {
 
     private fun getQuiz() {
         trueAnswer = questions[questionCounter]
-
-        binding.ivFlag.setImageResource(
-            resources.getIdentifier(
-                trueAnswer.flag, "drawable",
-                requireActivity().packageName
-            )
-        )
-
         falseAnswer = QuizDao().getRandom3WrongAnswer(dbs, trueAnswer.id)
 
         allOptions = HashSet()
-        allOptions.add(trueAnswer)
-        allOptions.add(falseAnswer[0])
-        allOptions.add(falseAnswer[1])
-        allOptions.add(falseAnswer[2])
+        allOptions.apply {
+            add(trueAnswer)
+            add(falseAnswer[0])
+            add(falseAnswer[1])
+            add(falseAnswer[2])
+        }
 
         binding.apply {
             buttonA.text = allOptions.elementAt(0).name
             buttonB.text = allOptions.elementAt(1).name
             buttonC.text = allOptions.elementAt(2).name
             buttonD.text = allOptions.elementAt(3).name
+
+            meterText = "${questionCounter + 1}/10"
+
+            ivFlag.setImageResource(
+                resources.getIdentifier(
+                    trueAnswer.flag, "drawable",
+                    requireActivity().packageName
+                )
+            )
         }
     }
 
@@ -102,10 +85,7 @@ class FlagsFragment : Fragment(R.layout.fragment_flags) {
         if (questionCounter != 10) {
             getQuiz()
         } else {
-            val action = FlagsFragmentDirections.fromFlagsToResult(
-                trueF = trueCounter,
-                falseF = falseCounter
-            )
+            val action = FlagsFragmentDirections.fromFlagsToResult(trueF = trueCounter)
             findNavController().navigate(action)
         }
     }
@@ -120,7 +100,27 @@ class FlagsFragment : Fragment(R.layout.fragment_flags) {
             falseCounter++
         }
 
-        binding.tvTrue.text = "$trueCounter"
-        binding.tvFalse.text = "$falseCounter"
+        binding.trueText = "$trueCounter"
+        binding.falseText = "$falseCounter"
+    }
+
+    fun buttonA() {
+        correctQuiz(binding.buttonA)
+        quizControl()
+    }
+
+    fun buttonB() {
+        correctQuiz(binding.buttonB)
+        quizControl()
+    }
+
+    fun buttonC() {
+        correctQuiz(binding.buttonC)
+        quizControl()
+    }
+
+    fun buttonD() {
+        correctQuiz(binding.buttonD)
+        quizControl()
     }
 }

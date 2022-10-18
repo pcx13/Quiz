@@ -6,8 +6,24 @@
     <data>
 
         <variable
+            name="flagsFragment"
+            type="com.pcx.capitalofapp.ui.fragment.FlagsFragment" />
+
+        <variable
             name="flagsViewModel"
             type="com.pcx.capitalofapp.ui.viewmodel.FlagsViewModel" />
+
+        <variable
+            name="trueText"
+            type="String" />
+
+        <variable
+            name="falseText"
+            type="String" />
+
+        <variable
+            name="meterText"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,6 +49,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="55dp"
             android:backgroundTint="@color/www"
+            android:onClick="@{() ->flagsFragment.buttonA()}"
             android:text="Button"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -47,6 +64,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="15dp"
             android:backgroundTint="@color/www"
+            android:onClick="@{() ->flagsFragment.buttonB()}"
             android:text="Button"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -61,6 +79,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="15dp"
             android:backgroundTint="@color/www"
+            android:onClick="@{() ->flagsFragment.buttonC()}"
             android:text="Button"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -75,6 +94,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="15dp"
             android:backgroundTint="@color/www"
+            android:onClick="@{() ->flagsFragment.buttonD()}"
             android:text="Button"
             android:textColor="@color/white"
             android:textStyle="bold"
@@ -110,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="0"
+            android:text="@{trueText}"
             android:textColor="@color/www"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/iv_true"
@@ -122,12 +142,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="0"
+            android:text="@{falseText}"
             android:textColor="@color/www"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="@+id/iv_false"
             app:layout_constraintStart_toStartOf="@+id/iv_false"
             app:layout_constraintTop_toBottomOf="@+id/iv_false" />
+
+        <TextView
+            android:id="@+id/tv_meter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{meterText}"
+            android:textColor="@color/www"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_true"
+            app:layout_constraintEnd_toStartOf="@+id/iv_false"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/iv_true"
+            app:layout_constraintTop_toTopOf="@+id/iv_false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

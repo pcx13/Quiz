@@ -73,9 +73,5 @@
             android:name="trueF"
             app:argType="integer"
             android:defaultValue="0" />
-        <argument
-            android:name="falseF"
-            app:argType="integer"
-            android:defaultValue="0" />
     </fragment>
 </navigation>

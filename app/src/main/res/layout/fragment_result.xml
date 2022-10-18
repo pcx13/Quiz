@@ -8,6 +8,14 @@
         <variable
             name="resultFragment"
             type="com.pcx.capitalofapp.ui.fragment.ResultFragment" />
+
+        <variable
+            name="resultText"
+            type="String" />
+
+        <variable
+            name="trueFF"
+            type="Integer" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,8 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="200dp"
             android:maxWidth="300dp"
-            android:text="Success rate 86%"
-            android:textColor="@color/green"
+            android:text="@{resultText}"
+            android:textColor="@{trueFF > 7 ? @color/green : trueFF > 3 ? @color/yellow : @color/red}"
             android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

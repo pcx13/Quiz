@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.pcx.capitalofapp.R
 import com.pcx.capitalofapp.data.DatabaseHelper
@@ -32,35 +31,15 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCapitalsBinding.bind(view)
+        binding.capitalsFragment = this
 
         dbs = DatabaseHelper(requireActivity())
-
         questions = QuizDao().getRandom10Flag(dbs)
 
+        binding.trueText="0"
+        binding.falseText="0"
+
         getQuiz()
-
-        binding.apply {
-
-            buttonA1.setOnClickListener {
-                correctQuiz(binding.buttonA1)
-                quizControl()
-            }
-
-            buttonB1.setOnClickListener {
-                correctQuiz(binding.buttonB1)
-                quizControl()
-            }
-
-            buttonC1.setOnClickListener {
-                correctQuiz(binding.buttonC1)
-                quizControl()
-            }
-
-            buttonD1.setOnClickListener {
-                correctQuiz(binding.buttonD1)
-                quizControl()
-            }
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,29 +50,32 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
 
     private fun getQuiz() {
         trueAnswer = questions[questionCounter]
-
-        binding.ivFlag3.setImageResource(
-            resources.getIdentifier(
-                trueAnswer.flag, "drawable",
-                requireActivity().packageName
-            )
-        )
-
-        binding.tvCountry.text = trueAnswer.name
-
         falseAnswer = QuizDao().getRandom3WrongAnswer(dbs, trueAnswer.id)
 
         allOptions = HashSet()
-        allOptions.add(trueAnswer)
-        allOptions.add(falseAnswer[0])
-        allOptions.add(falseAnswer[1])
-        allOptions.add(falseAnswer[2])
+        allOptions.apply {
+            add(trueAnswer)
+            add(falseAnswer[0])
+            add(falseAnswer[1])
+            add(falseAnswer[2])
+        }
 
         binding.apply {
             buttonA1.text = allOptions.elementAt(0).capital
             buttonB1.text = allOptions.elementAt(1).capital
             buttonC1.text = allOptions.elementAt(2).capital
             buttonD1.text = allOptions.elementAt(3).capital
+
+            countryText = trueAnswer.name
+            meterText = "${questionCounter + 1}/10"
+
+            ivFlag3.setImageResource(
+                resources.getIdentifier(
+                    trueAnswer.flag,
+                    "drawable",
+                    requireActivity().packageName
+                )
+            )
         }
     }
 
@@ -103,10 +85,7 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
         if (questionCounter != 10) {
             getQuiz()
         } else {
-            val action = CapitalsFragmentDirections.fromCapitalsToResult(
-                trueF = trueCounter,
-                falseF = falseCounter
-            )
+            val action = CapitalsFragmentDirections.fromCapitalsToResult(trueF = trueCounter)
             findNavController().navigate(action)
         }
     }
@@ -121,7 +100,27 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
             falseCounter++
         }
 
-        binding.tvTrue3.text = "$trueCounter"
-        binding.tvFalse3.text = "$falseCounter"
+        binding.trueText = "$trueCounter"
+        binding.falseText = "$falseCounter"
+    }
+
+    fun buttonA1() {
+        correctQuiz(binding.buttonA1)
+        quizControl()
+    }
+
+    fun buttonB1() {
+        correctQuiz(binding.buttonB1)
+        quizControl()
+    }
+
+    fun buttonC1() {
+        correctQuiz(binding.buttonC1)
+        quizControl()
+    }
+
+    fun buttonD1() {
+        correctQuiz(binding.buttonD1)
+        quizControl()
     }
 }

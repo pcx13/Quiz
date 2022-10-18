@@ -5,6 +5,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.pcx.capitalofapp.R
 import com.pcx.capitalofapp.databinding.FragmentMainBinding
 import com.pcx.capitalofapp.ui.viewmodel.MainViewModel
@@ -27,10 +28,10 @@ class MainFragment:Fragment(R.layout.fragment_main) {
     }
 
     fun buttonFlags(){
-        view?.let { Navigation.findNavController(it).navigate(R.id.fromMain_toFlags) }
+        findNavController().navigate(R.id.fromMain_toFlags)
     }
 
     fun buttonCapitals(){
-        view?.let { Navigation.findNavController(it).navigate(R.id.fromMain_toCapitals) }
+        findNavController().navigate(R.id.fromMain_toCapitals)
     }
 }
