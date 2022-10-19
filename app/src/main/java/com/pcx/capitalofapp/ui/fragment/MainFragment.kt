@@ -9,28 +9,28 @@ import com.pcx.capitalofapp.R
 import com.pcx.capitalofapp.databinding.FragmentMainBinding
 import com.pcx.capitalofapp.ui.viewmodel.MainViewModel
 
-class MainFragment:Fragment(R.layout.fragment_main) {
+class MainFragment : Fragment(R.layout.fragment_main) {
 
-    private lateinit var binding:FragmentMainBinding
+    private lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding= FragmentMainBinding.bind(view)
-        binding.mainFragment=this
+        binding = FragmentMainBinding.bind(view)
+        binding.mainFragment = this
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tempViewModel:MainViewModel by viewModels()
-        viewModel=tempViewModel
+        val tempViewModel: MainViewModel by viewModels()
+        viewModel = tempViewModel
     }
 
-    fun buttonFlags(){
+    fun buttonFlags() {
         findNavController().navigate(R.id.fromMain_toFlags)
     }
 
-    fun buttonCapitals(){
+    fun buttonCapitals() {
         findNavController().navigate(R.id.fromMain_toCapitals)
     }
 }

@@ -23,7 +23,7 @@ class ResultFragment : Fragment(R.layout.fragment_result) {
         val bundle: ResultFragmentArgs by navArgs()
 
         binding.trueFF = bundle.trueF
-        val t=binding.trueFF!!
+        val t = binding.trueFF!!
 
         binding.resultText = "Success rate ${t * 10}%"
     }

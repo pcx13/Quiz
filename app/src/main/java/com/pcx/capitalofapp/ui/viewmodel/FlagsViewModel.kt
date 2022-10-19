@@ -1,7 +1,6 @@
 package com.pcx.capitalofapp.ui.viewmodel
 
 import android.widget.Button
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pcx.capitalofapp.data.DatabaseHelper
 import com.pcx.capitalofapp.data.Quiz

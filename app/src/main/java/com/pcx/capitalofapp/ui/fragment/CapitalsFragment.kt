@@ -25,8 +25,8 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
         viewModel.dbs = DatabaseHelper(requireActivity())
         viewModel.questions = QuizDao().getRandom10Flag(viewModel.dbs)
 
-        binding.trueText="0"
-        binding.falseText="0"
+        binding.trueText = viewModel.outcomeT
+        binding.falseText = viewModel.outcomeF
 
         getQuiz()
     }
@@ -47,7 +47,7 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
             buttonD1.text = viewModel.allOptions.elementAt(3).capital
 
             countryText = viewModel.trueAnswer.name
-            meterText = "${viewModel.questionCounter + 1}/10"
+            meterText = viewModel.counter
 
             ivFlag3.setImageResource(
                 resources.getIdentifier(
@@ -65,7 +65,8 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
         if (viewModel.questionCounter != 10) {
             getQuiz()
         } else {
-            val action = CapitalsFragmentDirections.fromCapitalsToResult(trueF = viewModel.trueCounter)
+            val action =
+                CapitalsFragmentDirections.fromCapitalsToResult(trueF = viewModel.trueCounter)
             findNavController().navigate(action)
         }
     }
