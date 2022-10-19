@@ -8,7 +8,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.pcx.capitalofapp.R
 import com.pcx.capitalofapp.data.DatabaseHelper
-import com.pcx.capitalofapp.data.Quiz
 import com.pcx.capitalofapp.data.QuizDao
 import com.pcx.capitalofapp.databinding.FragmentCapitalsBinding
 import com.pcx.capitalofapp.ui.viewmodel.CapitalsViewModel
@@ -18,23 +17,13 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
     private lateinit var binding: FragmentCapitalsBinding
     private lateinit var viewModel: CapitalsViewModel
 
-    private lateinit var questions: ArrayList<Quiz>
-    private lateinit var falseAnswer: ArrayList<Quiz>
-    private lateinit var trueAnswer: Quiz
-    private lateinit var allOptions: HashSet<Quiz>
-    private lateinit var dbs: DatabaseHelper
-
-    private var questionCounter = 0
-    private var trueCounter = 0
-    private var falseCounter = 0
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCapitalsBinding.bind(view)
         binding.capitalsFragment = this
 
-        dbs = DatabaseHelper(requireActivity())
-        questions = QuizDao().getRandom10Flag(dbs)
+        viewModel.dbs = DatabaseHelper(requireActivity())
+        viewModel.questions = QuizDao().getRandom10Flag(viewModel.dbs)
 
         binding.trueText="0"
         binding.falseText="0"
@@ -49,29 +38,20 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
     }
 
     private fun getQuiz() {
-        trueAnswer = questions[questionCounter]
-        falseAnswer = QuizDao().getRandom3WrongAnswer(dbs, trueAnswer.id)
-
-        allOptions = HashSet()
-        allOptions.apply {
-            add(trueAnswer)
-            add(falseAnswer[0])
-            add(falseAnswer[1])
-            add(falseAnswer[2])
-        }
+        viewModel.quizzes()
 
         binding.apply {
-            buttonA1.text = allOptions.elementAt(0).capital
-            buttonB1.text = allOptions.elementAt(1).capital
-            buttonC1.text = allOptions.elementAt(2).capital
-            buttonD1.text = allOptions.elementAt(3).capital
+            buttonA1.text = viewModel.allOptions.elementAt(0).capital
+            buttonB1.text = viewModel.allOptions.elementAt(1).capital
+            buttonC1.text = viewModel.allOptions.elementAt(2).capital
+            buttonD1.text = viewModel.allOptions.elementAt(3).capital
 
-            countryText = trueAnswer.name
-            meterText = "${questionCounter + 1}/10"
+            countryText = viewModel.trueAnswer.name
+            meterText = "${viewModel.questionCounter + 1}/10"
 
             ivFlag3.setImageResource(
                 resources.getIdentifier(
-                    trueAnswer.flag,
+                    viewModel.trueAnswer.flag,
                     "drawable",
                     requireActivity().packageName
                 )
@@ -80,28 +60,21 @@ class CapitalsFragment : Fragment(R.layout.fragment_capitals) {
     }
 
     private fun quizControl() {
-        questionCounter++
+        viewModel.questionCounter++
 
-        if (questionCounter != 10) {
+        if (viewModel.questionCounter != 10) {
             getQuiz()
         } else {
-            val action = CapitalsFragmentDirections.fromCapitalsToResult(trueF = trueCounter)
+            val action = CapitalsFragmentDirections.fromCapitalsToResult(trueF = viewModel.trueCounter)
             findNavController().navigate(action)
         }
     }
 
     private fun correctQuiz(button: Button) {
-        val buttonText = button.text.toString()
-        val correctAnswer = trueAnswer.capital
+        viewModel.correction(button)
 
-        if (buttonText == correctAnswer) {
-            trueCounter++
-        } else {
-            falseCounter++
-        }
-
-        binding.trueText = "$trueCounter"
-        binding.falseText = "$falseCounter"
+        binding.trueText = viewModel.outcomeT
+        binding.falseText = viewModel.outcomeF
     }
 
     fun buttonA1() {
