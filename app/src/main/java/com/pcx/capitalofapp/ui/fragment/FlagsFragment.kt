@@ -38,7 +38,6 @@ class FlagsFragment : Fragment(R.layout.fragment_flags) {
     }
 
     private fun getQuiz() {
-
         viewModel.quizzes()
 
         binding.apply {

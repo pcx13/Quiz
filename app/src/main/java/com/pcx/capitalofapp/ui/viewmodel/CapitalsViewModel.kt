@@ -24,7 +24,7 @@ class CapitalsViewModel : ViewModel() {
 
     fun correction(button: Button) {
         val buttonText = button.text.toString()
-        val correctAnswer = trueAnswer.name
+        val correctAnswer = trueAnswer.capital
 
         if (buttonText == correctAnswer) {
             trueCounter++
